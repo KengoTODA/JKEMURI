@@ -25,12 +25,11 @@ public class CompilerTest extends AbstractTest {
 
 		byte[] binary = compiler.compile(reader, "Main");
 		Class<?> clazz = new OriginalClassLoader().defineClass("Main", binary);
-		Object instance = clazz.newInstance();
 		Method method = clazz.getMethod("main", String[].class);
 		assertThat(Modifier.isStatic(method.getModifiers()), is(true));
 		assertThat(Modifier.isPublic(method.getModifiers()), is(true));
 
-		method.invoke(instance, new Object[] { new String[]{ } });
+		method.invoke(null, new Object[] { new String[]{ } });
 		assertThat(byteArray.toString(), is(expected));
 	}
 
