@@ -150,8 +150,6 @@ public class Compiler {
 		mv.visitTypeInsn(NEW, Type.getInternalName(ArrayDeque.class));
 		mv.visitInsn(DUP);
 		mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(ArrayDeque.class), "<init>", "()V");
-		mv.visitInsn(DUP);
-		mv.visitVarInsn(ASTORE, 0);
 
 		compile(mv, reader, innerFullClassName);
 
