@@ -29,9 +29,9 @@ import static org.objectweb.asm.Opcodes.V1_5;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -153,9 +153,9 @@ public class Compiler {
 				"main",
 				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[]{Type.getObjectType("[Ljava/lang/String;")}),
 				null, null);
-		mv.visitTypeInsn(NEW, Type.getInternalName(LinkedList.class));
+		mv.visitTypeInsn(NEW, Type.getInternalName(ArrayDeque.class));
 		mv.visitInsn(DUP);
-		mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(LinkedList.class), "<init>", "()V");
+		mv.visitMethodInsn(INVOKESPECIAL, Type.getInternalName(ArrayDeque.class), "<init>", "()V");
 		mv.visitFieldInsn(PUTSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 
 		compile(mv, reader, innerFullClassName);

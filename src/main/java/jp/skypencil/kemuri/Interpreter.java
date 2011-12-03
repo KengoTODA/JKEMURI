@@ -3,9 +3,9 @@ package jp.skypencil.kemuri;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -17,7 +17,7 @@ public class Interpreter {
 	}));
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
-	private final Deque<Character> stack = new LinkedList<Character>();
+	private final Deque<Character> stack = new ArrayDeque<Character>();
 
 	public void run(Reader reader, PrintWriter writer) throws IOException {
 		int i;
