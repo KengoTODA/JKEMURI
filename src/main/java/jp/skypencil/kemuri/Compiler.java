@@ -49,6 +49,7 @@ public class Compiler {
 	private static final List<Character> HELLO_WORLD = Lists.reverse(Arrays.asList(new Character[] {
 			72, 101, 108, 108, 111, 44, 32, 119, 111, 114, 108, 100, 33
 	}));
+	private static final Type[] EMPTY_TYPE = new Type[0];
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 
@@ -109,11 +110,11 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"dup",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 		mv.visitInsn(DUP);
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 		mv.visitInsn(DUP2);
 		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "push", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[]{ Type.getType(Object.class) }));
 		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "push", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[]{ Type.getType(Object.class) }));
@@ -132,7 +133,7 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"hello",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 		for (char c : HELLO_WORLD) {
@@ -169,13 +170,13 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"not",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 		mv.visitInsn(DUP);
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 		mv.visitTypeInsn(CHECKCAST, Type.getInternalName(Character.class));
-		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), EMPTY_TYPE));
 		mv.visitInsn(INEG);
 		mv.visitLdcInsn(255);
 		mv.visitInsn(IADD);
@@ -191,19 +192,19 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"print",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 		Label loopStart = new Label();
 		Label loopEnd = new Label();
 		mv.visitLabel(loopStart);
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "isEmpty", Type.getMethodDescriptor(Type.getType(boolean.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "isEmpty", Type.getMethodDescriptor(Type.getType(boolean.class), EMPTY_TYPE));
 		mv.visitJumpInsn(IFNE, loopEnd);
 		mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 		mv.visitTypeInsn(CHECKCAST, Type.getInternalName(Character.class));
-		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), EMPTY_TYPE));
 		mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "print", "(C)V");
 		mv.visitJumpInsn(GOTO, loopStart);
 		mv.visitLabel(loopEnd);
@@ -218,13 +219,13 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"rot",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 		for (int i = 0; i < ROT_MAPPING.length; ++i) {
 			mv.visitInsn(DUP);
-			mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+			mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 			mv.visitVarInsn(ASTORE, i);
 		}
 		for (int i = 0; i < ROT_MAPPING.length; ++i) {
@@ -243,18 +244,18 @@ public class Compiler {
 		MethodVisitor mv = cw.visitMethod(
 				ACC_STATIC,
 				"xor",
-				Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]),
+				Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE),
 				null, null);
 		mv.visitFieldInsn(GETSTATIC, innerFullClassName, "stack", Type.getDescriptor(Deque.class));
 		mv.visitInsn(DUP);
 		mv.visitInsn(DUP);
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 		mv.visitTypeInsn(CHECKCAST, Type.getInternalName(Character.class));
-		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), EMPTY_TYPE));
 		mv.visitInsn(SWAP);
-		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "pop", Type.getMethodDescriptor(Type.getType(Object.class), EMPTY_TYPE));
 		mv.visitTypeInsn(CHECKCAST, Type.getInternalName(Character.class));
-		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), new Type[0]));
+		mv.visitMethodInsn(INVOKEVIRTUAL, Type.getInternalName(Character.class), "charValue", Type.getMethodDescriptor(Type.getType(char.class), EMPTY_TYPE));
 		mv.visitInsn(IXOR);
 		mv.visitMethodInsn(INVOKESTATIC, Type.getInternalName(Character.class), "valueOf", Type.getMethodDescriptor(Type.getType(Character.class), new Type[]{ Type.getType(char.class) }));
 		mv.visitMethodInsn(INVOKEINTERFACE, Type.getInternalName(Deque.class), "push", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[] { Type.getType(Object.class) }));
@@ -267,22 +268,22 @@ public class Compiler {
 	private void exec(MethodVisitor mv, int command, String innerFullClassName) {
 		switch (command) {
 		case '^':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "xor", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "xor", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		case '~':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "not", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "not", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		case '"':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "dup", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "dup", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		case '\'':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "rot", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "rot", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		case '`':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "hello", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "hello", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		case '|':
-			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "print", Type.getMethodDescriptor(Type.VOID_TYPE, new Type[0]));
+			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "print", Type.getMethodDescriptor(Type.VOID_TYPE, EMPTY_TYPE));
 			break;
 		default: 
 			logger.warning("unknown command: " + Character.toString((char) command));
