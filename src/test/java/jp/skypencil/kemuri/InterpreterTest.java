@@ -1,40 +1,16 @@
 package jp.skypencil.kemuri;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.junit.Test;
+public class InterpreterTest extends AbstractTest {
 
-public class InterpreterTest {
-
-	@Test
-	public void testHelloWorld() throws IOException {
-		test("`|", "Hello, world!");
-	}
-
-	@Test
-	public void testRemoveHead() throws IOException {
-		test("`\"^^|", "ello, world!");
-	}
-
-	@Test
-	public void testRemove2nd3rd() throws IOException {
-		test("`'^\"^^|", "Hlo, world!");
-	}
-
-	@Test
-	public void testPythonHacker() throws IOException {
-		test(
-				"`\"^^\"^^^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^\"'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^\"^^\"^^'\"^^\"^^\"'\"^^\"^^`\"^^'^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^\"'\"^^\"^^`'\"^^\"^^^^'\"^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^\"^^'\"^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^^`'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^'\"^^^'\"^^\"^^'\"^^\"^^'\"^^^`\"^^\"^^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`'\"^^''^^'\"^^\"^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^^'\"^^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^\"^^''\"^^^^'\"^^\"'`'\"^^\"^^'\"^^\"^^'\"^^\"^^^^'\"^^\"^^'\"^^\"^^\"'`\"^^\"^^^^\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^\"^^\"^^'\"^^\"^^\"'\"^^\"^^`\"^^'^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^\"'\"^^\"^^`'\"^^''^^'\"^^\"^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^^'\"^^^'\"^^\"^^`\"^^\"^^^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^'\"^^^'\"^^\"^^'\"^^\"^^'\"^^^`^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^'\"^^\"^^'\"^^\"^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^\"^^^'\"^^^'\"^^\"^^`\"^^\"^^^^\"^^\"^^'\"^^\"^^^'\"^^\"^^^`'\"^^\"^^'\"^^\"^^'\"^^^'\"^^^^'\"^^''`\"^^\"^^^^\"^^\"^^^^^'\"^^\"^^'\"^^\"^^\"'^\"^^|",
-				"Just Another Python Hacker,");
-	}
-
-	private void test(String source, String expected) throws IOException {
+	@Override
+	protected void test(String source, String expected) throws Exception {
 		StringReader reader = new StringReader(source);
 		StringWriter writer = new StringWriter();
 		Interpreter interpreter = new Interpreter();
