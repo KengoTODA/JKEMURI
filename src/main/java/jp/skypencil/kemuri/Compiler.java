@@ -32,25 +32,25 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 
 public class Compiler {
+	private final Logger logger = LoggerFactory.getLogger(Compiler.class);
 
 	private static final Type[] DEQUE_TYPE = new Type[] { Type.getType(Deque.class) };
 	private static final List<Character> HELLO_WORLD = Lists.reverse(Arrays.asList(new Character[] {
 			72, 101, 108, 108, 111, 44, 32, 119, 111, 114, 108, 100, 33
 	}));
 	private static final Type[] EMPTY_TYPE = new Type[0];
-
-	private final Logger logger = Logger.getLogger(getClass().getName());
 
 	private void compile(MethodVisitor mv, Reader reader, String innerFullClassName) throws IOException {
 		int command;
@@ -279,7 +279,7 @@ public class Compiler {
 			mv.visitMethodInsn(INVOKESTATIC, innerFullClassName, "print", Type.getMethodDescriptor(Type.VOID_TYPE, DEQUE_TYPE));
 			break;
 		default: 
-			logger.warning("unknown command: " + Character.toString((char) command));
+			logger.warn("unknown command: {}", Character.toString((char) command));
 			mv.visitInsn(POP);
 		}
 	}
