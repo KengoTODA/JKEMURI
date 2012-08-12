@@ -42,7 +42,7 @@
 					<sourceEncoding>UTF-8</sourceEncoding>
 					<targetJdk>1.6</targetJdk>
 					<rulesets>
-						<ruleset>src/rulesets/slf4j.xml</ruleset>
+						<ruleset>slf4j.xml</ruleset>
 					</rulesets>
 				</configuration>
 			</plugin>
